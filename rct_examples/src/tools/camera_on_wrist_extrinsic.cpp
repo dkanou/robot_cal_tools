@@ -49,6 +49,8 @@ static void reproject(const Eigen::Affine3d& wrist_to_camera, const Eigen::Affin
 
 int main(int argc, char** argv)
 {
+  std::cout << "DEBUG: camera_on_wrist_extrinsic" << std::endl;
+  
   ros::init(argc, argv, "camera_on_wrist_extrinsic");
   ros::NodeHandle pnh("~");
 
@@ -73,7 +75,8 @@ int main(int argc, char** argv)
     ROS_WARN_STREAM("Unable to load camera intrinsics from the 'intrinsics' parameter struct");
     return 1;
   }
-
+  
+  std::cout << "DEBUG: camera_on_wrist_extrinsic 1" << std::endl;
   // Attempt to load the data set via the data record yaml file:
   boost::optional<rct_ros_tools::ExtrinsicDataSet> maybe_data_set = rct_ros_tools::parseFromFile(data_path);
   if (!maybe_data_set)
@@ -91,6 +94,7 @@ int main(int argc, char** argv)
   rct_optimizations::ExtrinsicCameraOnWristProblem problem_def;
   problem_def.intr = intr; // Set the camera properties
 
+  std::cout << "DEBUG: camera_on_wrist_extrinsic 2" << std::endl;
   // Our 'base to camera guess': A camera off to the side, looking at a point centered in front of the robot
   if (!rct_ros_tools::loadPose(pnh, "base_to_target_guess", problem_def.base_to_target_guess))
   {
@@ -104,6 +108,7 @@ int main(int argc, char** argv)
     return 1;
   }
 
+  std::cout << "DEBUG: camera_on_wrist_extrinsic 3" << std::endl;
   // Finally, we need to process our images into correspondence sets: for each dot in the
   // target this will be where that dot is in the target and where it was seen in the image.
   // Repeat for each image. We also tell where the wrist was when the image was taken.
@@ -131,12 +136,16 @@ int main(int argc, char** argv)
 
     //// And finally add that to the problem
     problem_def.image_observations.push_back(rct_image_tools::getCorrespondenceSet(*maybe_obs, target.points));
+    std::cout << "DEBUG: camera_on_wrist_extrinsic 4-" << i << std::endl;
   }
 
+  std::cout << "DEBUG: camera_on_wrist_extrinsic 5" << std::endl;
   // Now we have a defined problem, run optimization:
   rct_optimizations::ExtrinsicCameraOnWristResult opt_result = rct_optimizations::optimize(problem_def);
 
   // Report results
+  std::cout << "Report Results" << std::endl; 
+  
   rct_ros_tools::printOptResults(opt_result.converged, opt_result.initial_cost_per_obs, opt_result.final_cost_per_obs);
   rct_ros_tools::printNewLine();
 
@@ -151,6 +160,7 @@ int main(int argc, char** argv)
   rct_ros_tools::printTitle("REPROJECTION ERROR");
   for (std::size_t i = 0; i < data_set.images.size(); ++i)
   {
+    std::cout << "Report Results-" << i << std::endl; 
     rct_ros_tools::printTitle("REPROJECT IMAGE " + std::to_string(i));
     reproject(opt_result.wrist_to_camera, opt_result.base_to_target, data_set.tool_poses[i],
               intr, target, data_set.images[i], problem_def.image_observations[i]);

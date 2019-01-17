@@ -58,6 +58,8 @@ static void reproject(const Eigen::Affine3d& base_to_target,
 
 int main(int argc, char** argv)
 {
+  std::cout << "DEBUG multi_static_camera_multi_step_extrinsic: " << std::endl;
+  
   ros::init(argc, argv, "multi_static_camera_multi_step_extrinsic");
   ros::NodeHandle pnh("~");
 

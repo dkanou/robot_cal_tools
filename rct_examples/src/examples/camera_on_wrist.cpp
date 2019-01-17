@@ -28,6 +28,8 @@
 
 int extrinsicWristCameraCalibration()
 {
+  std::cout << "Step 0" << std::endl << std::endl << std::endl;
+  
   // The general goal is to fill out the 'Extrinsic Camera on Wrist' problem definition
   // and then call 'rct_optimizations::optimize()' on it.
 
@@ -40,25 +42,27 @@ int extrinsicWristCameraCalibration()
 
   // Step 1: Define the camera intrinsics - I know mine so I write them here. If you don't know
   // yours, use the opencv calibration tool to figure them out!
-  problem_def.intr.fx() = 510.0;
-  problem_def.intr.fy() = 510.0;
-  problem_def.intr.cx() = 320.2;
-  problem_def.intr.cy() = 208.9;
+  std::cout << "Step 1" << std::endl << std::endl << std::endl;
+  problem_def.intr.fx() = 570.34;
+  problem_def.intr.fy() = 570.34;
+  problem_def.intr.cx() = 319.5;
+  problem_def.intr.cy() = 239.5;
 
   // Step 2: Let's add the guesses next. See the rct_examples/README.md for a discussion about the
   // reference frames for the camera and target!
-  Eigen::Vector3d wrist_to_camera_tx (0.015, 0, 0.15); // Guess for wrist-to-camera
+  std::cout << "Step 2" << std::endl << std::endl << std::endl;
+  Eigen::Vector3d wrist_to_camera_tx (0.0, 0.0, 0.0); // Guess for wrist-to-camera
   Eigen::Matrix3d wrist_to_camera_rot;
-  wrist_to_camera_rot << 0, 1, 0,
-                        -1, 0, 0,
+  wrist_to_camera_rot << 1, 0, 0,
+                         0, 1, 0,
                          0, 0, 1;
   problem_def.wrist_to_camera_guess.translation() = wrist_to_camera_tx;
   problem_def.wrist_to_camera_guess.linear() = wrist_to_camera_rot;
 
-  Eigen::Vector3d base_to_target_tx (1, 0, 0); // Guess for base-to-target
+  Eigen::Vector3d base_to_target_tx (0.0, 0.0, 0.0); // Guess for base-to-target
   Eigen::Matrix3d base_to_target_rot;
-  base_to_target_rot << 0, 1, 0,
-                       -1, 0, 0,
+  base_to_target_rot << 1, 0, 0,
+                        0, 1, 0,
                         0, 0, 1;
   problem_def.base_to_target_guess.translation() = base_to_target_tx;
   problem_def.base_to_target_guess.linear() = base_to_target_rot;
@@ -66,9 +70,12 @@ int extrinsicWristCameraCalibration()
   // Step 3: We need to specify the wrist-poses and the correspondences. I'm going to use a simple
   // tool I wrote to load images and wrist poses from a file. You need to implement the data
   // collection logic for your application.
-
+  
+  std::cout << "Step 3" << std::endl << std::endl << std::endl;
+  
   // Step 3.1: Load the data set (and make sure it worked)
-  const std::string data_path = ros::package::getPath("rct_examples") + "/data/test_set_10x10/cal_data.yaml";
+  //const std::string data_path = ros::package::getPath("rct_examples") + "/home/dkanou/Kanoulas/code/github/ros-industrial/cmd_line_cal_data_setdata.yaml";
+  const std::string data_path = "/home/dkanou/Kanoulas/code/github/ros-industrial/cmd_line_cal_data_set/data.yaml";
   boost::optional<rct_ros_tools::ExtrinsicDataSet> maybe_data_set = rct_ros_tools::parseFromFile(data_path);
   // Attempt to load the data set via the data record yaml file:
   if (!maybe_data_set)
@@ -87,7 +94,7 @@ int extrinsicWristCameraCalibration()
 
   // The 'rct_image_tools' package provides a class for describing the target (it's 3D points) and
   // a class for finding that target in an image. So let's create a target...
-  rct_image_tools::ModifiedCircleGridTarget target(10, 10, 0.0254); // rows, cols, spacing between dots
+  rct_image_tools::ModifiedCircleGridTarget target(5, 5, 0.034); // rows, cols, spacing between dots
 
   // The Observation Finder class uses the target definition to search images
   rct_image_tools::ModifiedCircleGridObservationFinder obs_finder(target);
@@ -96,6 +103,7 @@ int extrinsicWristCameraCalibration()
   // and 3) push them into the problem definition.
   // This process of finding the dots can fail, we we make sure they are found before adding the
   // wrist location for that image.
+  std::cout << "image_set.size(): " << image_set.size() << std::endl;
   for (std::size_t i = 0; i < image_set.size(); ++i)
   {
     // Try to find the circle grid in this image:
@@ -128,9 +136,12 @@ int extrinsicWristCameraCalibration()
     problem_def.image_observations.push_back(correspondences);
   }
 
+  
   // Step 4: You defined a problem, let the tools solve it! Call 'optimize()'.
+  std::cout << "Step 4" << std::endl << std::endl << std::endl;
   rct_optimizations::ExtrinsicCameraOnWristResult opt_result = rct_optimizations::optimize(problem_def);
-
+  
+  std::cout << "Optimized finished" << std::endl;
   // Step 5: Do something with your results. Here I just print the results, but you might want to
   // update a data structure, save to a file, push to a mutable joint or mutable state publisher in
   // ROS. The options are many, and it's up to you. We just try to help solve the problem.
@@ -154,6 +165,7 @@ int extrinsicWristCameraCalibration()
 
 int main()
 {
+  std::cout << "Running Camera_On_Wrist example" << std::endl;
   return extrinsicWristCameraCalibration();
 }
 
@@ -168,6 +180,7 @@ TEST(ExtrinsicCamera, ExtrinsicCamera)
 
 int main(int argc, char** argv)
 {
+  std::cout << "Running Camera_On_Wrist InitGoogleTest" << std::endl;
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

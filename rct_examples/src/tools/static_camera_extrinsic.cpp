@@ -46,6 +46,8 @@ static void reproject(const Eigen::Affine3d& wrist_to_target, const Eigen::Affin
 
 int main(int argc, char** argv)
 {
+  std::cout << "DEBUG: camera_on_wrist_extrinsic" << std::endl;
+  
   ros::init(argc, argv, "camera_on_wrist_extrinsic");
   ros::NodeHandle pnh("~");
 

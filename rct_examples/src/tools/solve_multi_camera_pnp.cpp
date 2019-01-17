@@ -66,6 +66,8 @@ static void reproject(const Eigen::Affine3d& base_to_target,
 
 int main(int argc, char** argv)
 {
+  std::cout << "DEBUG solve_multi_camera_pnp_ex: " << std::endl;
+  
   ros::init(argc, argv, "solve_multi_camera_pnp_ex", ros::init_options::AnonymousName);
   ros::NodeHandle pnh("~");
 
