@@ -129,6 +129,7 @@ struct DataCollection
     , image_monitor(config.target, config.image_topic)
     , save_dir_(config.save_dir)
   {
+    std::cout << "tool_frame: " << config.tool_frame << std::endl;
     ros::NodeHandle nh;
     trigger_server = nh.advertiseService("collect", &DataCollection::onTrigger, this);
     save_server = nh.advertiseService("save", &DataCollection::onSave, this);

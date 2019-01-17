@@ -55,6 +55,9 @@ static Eigen::Affine3d solveCVPnP(const rct_optimizations::CameraIntrinsics& int
 
 int main(int argc, char** argv)
 {
+  std::cout << "DEBUG: solve_pnp_ex" << std::endl;
+
+  
   ros::init(argc, argv, "solve_pnp_ex", ros::init_options::AnonymousName);
   ros::NodeHandle pnh ("~");
 

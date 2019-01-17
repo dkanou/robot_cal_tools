@@ -26,81 +26,122 @@ include_directories(
 #####################
 ## SIMPLE Examples ##
 #####################
-add_executable(${PROJECT_NAME}_wrist_example src/examples/camera_on_wrist.cpp)
+message(WARNING "Should build now: " )
+message(${PROJECT_NAME})
 
-set_target_properties(${PROJECT_NAME}_wrist_example PROPERTIES OUTPUT_NAME example_camera_on_wrist PREFIX "")
+add_executable(${PROJECT_NAME}_wrist_example
+               src/examples/camera_on_wrist.cpp)
 
-add_dependencies(${PROJECT_NAME}_wrist_example ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+set_target_properties(${PROJECT_NAME}_wrist_example
+                      PROPERTIES OUTPUT_NAME example_camera_on_wrist PREFIX "")
 
-target_link_libraries(${PROJECT_NAME}_wrist_example ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME}_wrist_example
+                 ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                 ${catkin_EXPORTED_TARGETS})
+
+target_link_libraries(${PROJECT_NAME}_wrist_example
+                      ${catkin_LIBRARIES})
 
 ###############################
 ## Offline Calibration Tools ##
 ###############################
 # Executable for demonstrating extrinsic, camera-on-wrist functionality
-add_executable(${PROJECT_NAME}_moving_camera src/tools/camera_on_wrist_extrinsic.cpp)
+add_executable(${PROJECT_NAME}_moving_camera
+               src/tools/camera_on_wrist_extrinsic.cpp)
 
-set_target_properties(${PROJECT_NAME}_moving_camera PROPERTIES OUTPUT_NAME moving_cam_extr_cal_ex PREFIX "")
+set_target_properties(${PROJECT_NAME}_moving_camera
+                      PROPERTIES OUTPUT_NAME moving_cam_extr_cal_ex PREFIX "")
 
-add_dependencies(${PROJECT_NAME}_moving_camera ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_moving_camera
+                 ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                 ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(${PROJECT_NAME}_moving_camera ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_moving_camera
+                      ${catkin_LIBRARIES})
 
 # Executable for demonstrating extrinsic cal of static camera, moving target functionality
-add_executable(${PROJECT_NAME}_static_camera src/tools/static_camera_extrinsic.cpp)
+add_executable(${PROJECT_NAME}_static_camera
+               src/tools/static_camera_extrinsic.cpp)
 
-set_target_properties(${PROJECT_NAME}_static_camera PROPERTIES OUTPUT_NAME static_cam_extr_cal_ex PREFIX "")
+set_target_properties(${PROJECT_NAME}_static_camera
+                      PROPERTIES OUTPUT_NAME static_cam_extr_cal_ex PREFIX "")
 
-add_dependencies(${PROJECT_NAME}_static_camera ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_static_camera
+                 ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                 ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(${PROJECT_NAME}_static_camera ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_static_camera
+                      ${catkin_LIBRARIES})
 
 # Executable for demonstrating extrinsic cal of multiple static camera, moving target functionality
-add_executable(${PROJECT_NAME}_multi_static_camera src/tools/multi_static_camera_extrinsic.cpp)
+add_executable(${PROJECT_NAME}_multi_static_camera
+               src/tools/multi_static_camera_extrinsic.cpp)
 
-set_target_properties(${PROJECT_NAME}_multi_static_camera PROPERTIES OUTPUT_NAME multi_static_cam_extr_cal_ex PREFIX "")
+set_target_properties(${PROJECT_NAME}_multi_static_camera
+                      PROPERTIES OUTPUT_NAME multi_static_cam_extr_cal_ex PREFIX "")
 
-add_dependencies(${PROJECT_NAME}_multi_static_camera ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_multi_static_camera
+                 ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                 ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(${PROJECT_NAME}_multi_static_camera ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_multi_static_camera
+                      ${catkin_LIBRARIES})
 
 # Executable for demonstrating extrinsic cal of multiple static camera multi step, moving target functionality
 # First it calibrates the cameras to each other then it calibrates the set of camera where there relationship
 # between cameras is fixed but as a whole they can be transformed along with wrist calibration.
-add_executable(${PROJECT_NAME}_multi_static_camera_multi_step src/tools/multi_static_camera_multi_step_extrinsic.cpp)
+add_executable(${PROJECT_NAME}_multi_static_camera_multi_step
+               src/tools/multi_static_camera_multi_step_extrinsic.cpp)
 
-set_target_properties(${PROJECT_NAME}_multi_static_camera_multi_step PROPERTIES OUTPUT_NAME multi_static_cam_multi_step_extr_cal_ex PREFIX "")
+set_target_properties(${PROJECT_NAME}_multi_static_camera_multi_step
+                      PROPERTIES OUTPUT_NAME multi_static_cam_multi_step_extr_cal_ex PREFIX "")
 
-add_dependencies(${PROJECT_NAME}_multi_static_camera_multi_step ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_multi_static_camera_multi_step
+                 ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                 ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(${PROJECT_NAME}_multi_static_camera_multi_step ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_multi_static_camera_multi_step
+                      ${catkin_LIBRARIES})
 
 #Executable for demonstrating intrinsic calibration of a camera
 add_executable(${PROJECT_NAME}_intr src/tools/intrinsic_calibration.cpp)
 
-set_target_properties(${PROJECT_NAME}_intr PROPERTIES OUTPUT_NAME intr_camera_cal_ex PREFIX "")
+set_target_properties(${PROJECT_NAME}_intr
+                      PROPERTIES OUTPUT_NAME intr_camera_cal_ex PREFIX "")
 
-add_dependencies(${PROJECT_NAME}_intr ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_intr
+                 ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                 ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(${PROJECT_NAME}_intr ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_intr
+                      ${catkin_LIBRARIES})
 
 # Executable demonstrating solving for the pose of a target given camera properties
 add_executable(${PROJECT_NAME}_pnp src/tools/solve_pnp.cpp)
 
-set_target_properties(${PROJECT_NAME}_pnp PROPERTIES OUTPUT_NAME solve_pnp_ex PREFIX "")
+set_target_properties(${PROJECT_NAME}_pnp
+                      PROPERTIES OUTPUT_NAME solve_pnp_ex PREFIX "")
 
-add_dependencies(${PROJECT_NAME}_pnp ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_pnp
+                 ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                 ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(${PROJECT_NAME}_pnp ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_pnp
+                      ${catkin_LIBRARIES})
 
 # Executable demonstrating solving for the pose of a target given multiple camera properties
-add_executable(${PROJECT_NAME}_multi_camera_pnp src/tools/solve_multi_camera_pnp.cpp)
+add_executable(${PROJECT_NAME}_multi_camera_pnp
+               src/tools/solve_multi_camera_pnp.cpp)
 
-set_target_properties(${PROJECT_NAME}_multi_camera_pnp PROPERTIES OUTPUT_NAME solve_multi_camera_pnp_ex PREFIX "")
+set_target_properties(${PROJECT_NAME}_multi_camera_pnp
+                      PROPERTIES OUTPUT_NAME solve_multi_camera_pnp_ex PREFIX "")
 
-add_dependencies(${PROJECT_NAME}_multi_camera_pnp ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_multi_camera_pnp
+                 ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                 ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(${PROJECT_NAME}_multi_camera_pnp ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_multi_camera_pnp
+                      ${catkin_LIBRARIES})
 
 #############
 ## Testing ##
@@ -115,7 +156,11 @@ endif()
 #############
 ## Install ##
 #############
+message(WARNING "Should install now")
+
+
 install(TARGETS
+    ${PROJECT_NAME}_wrist_example
     ${PROJECT_NAME}_moving_camera
     ${PROJECT_NAME}_static_camera
     ${PROJECT_NAME}_multi_static_camera
