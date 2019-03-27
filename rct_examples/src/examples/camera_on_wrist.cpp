@@ -13,13 +13,16 @@
 // This include is used to load images and the associated wrist poses from the data/ directory
 // of this package. It's my only concession to the "self-contained rule".
 #include <rct_ros_tools/data_set.h>
+#include "rct_ros_tools/parameter_loaders.h"
 // This include provide useful print functions for outputing results to terminal
 #include <rct_ros_tools/print_utils.h>
 // This header brings in a tool for finding the target in a given image
 #include <rct_image_tools/image_observation_finder.h>
+#include <rct_image_tools/image_utils.h>
 // This header brings in he calibration function for 'moving camera' on robot wrist - what we
 // want to calibrate here.
 #include <rct_optimizations/extrinsic_camera_on_wrist.h>
+#include <rct_optimizations/experimental/pnp.h>
 // This header brings in the ros::package::getPath() command so I can find the data set
 // on your computer.
 #include <ros/package.h>
@@ -75,7 +78,7 @@ int extrinsicWristCameraCalibration()
   
   // Step 3.1: Load the data set (and make sure it worked)
   //const std::string data_path = ros::package::getPath("rct_examples") + "/home/dkanou/Kanoulas/code/github/ros-industrial/cmd_line_cal_data_setdata.yaml";
-  const std::string data_path = "/home/dkanou/Kanoulas/code/github/ros-industrial/cmd_line_cal_data_set/data.yaml";
+  const std::string data_path = "cmd_line_cal_data_set/data.yaml";
   boost::optional<rct_ros_tools::ExtrinsicDataSet> maybe_data_set = rct_ros_tools::parseFromFile(data_path);
   // Attempt to load the data set via the data record yaml file:
   if (!maybe_data_set)
@@ -180,6 +183,9 @@ TEST(ExtrinsicCamera, ExtrinsicCamera)
 
 int main(int argc, char** argv)
 {
+  ros::init(argc, argv, "camera_on_wrist");
+  ros::NodeHandle pnh("~");
+
   std::cout << "Running Camera_On_Wrist InitGoogleTest" << std::endl;
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

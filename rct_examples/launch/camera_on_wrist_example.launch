@@ -6,7 +6,7 @@
   <arg name="guess_file"
        default="$(find rct_examples)/config/camera_on_wrist_guesses.yaml"/>
   <arg name="data_path"
-       default="/home/dkanou/Kanoulas/code/github/ros-industrial/cmd_line_cal_data_set/data.yaml"/>
+       default="cmd_line_cal_data_set/data.yaml"/>
 
   <node pkg="rct_examples"
         type="moving_cam_extr_cal_ex"
